@@ -1,8 +1,8 @@
 package gmet
 
 import (
-"sync"
-"testing"
+	"sync"
+	"testing"
 )
 
 func BenchmarkRegistry(b *testing.B) {
@@ -274,7 +274,7 @@ func TestChildPrefixedRegistryOfChildRegister(t *testing.T) {
 	r2.Each(func(name string, m interface{}) {
 		i++
 		if name != "prefix.prefix2.baz" {
-			//t.Fatal(name)
+			// t.Fatal(name)
 		}
 	})
 	if i != 1 {

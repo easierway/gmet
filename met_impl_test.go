@@ -5,7 +5,7 @@ import (
 )
 
 func TestGMetInstance_Metric(t *testing.T) {
-	gmet := CreateGMetInstance(&JSON_Formatter{})
+	gmet := CreateGMetInstance(&JSON_Formatter{}, &DummyWriter{})
 	gmet.Metric("A")
 	gmet.Metric("A")
 	gmet.Metric("A")

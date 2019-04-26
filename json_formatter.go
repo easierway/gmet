@@ -8,14 +8,6 @@ import (
 
 type JSON_Formatter struct{}
 
-const (
-	SEC_SPLITTER               string = "\t"
-	FIELD_SPLITTER             string = ":"
-	TIMESTAMP_KEY              string = "timestamp"
-	SEC_SPLITTER_REPLACEMENT   string = "_"
-	FIELD_SPLITTER_REPLACEMENT string = "-"
-)
-
 func valueToJSON(v interface{}) string {
 	switch v.(type) {
 	case string:

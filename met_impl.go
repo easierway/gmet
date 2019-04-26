@@ -1,22 +1,13 @@
 package gmet
 
 import (
-	"log"
 	"time"
-)
-
-const (
-	HOST_ADDR     = "host"
-	HOST_NAME     = "hostname"
-	MISSING_VALUE = "N/A"
-	SYSTYPE       = "systype"
 )
 
 type GMetInstance struct {
 	registry  Registry
 	formatter MetFormatter // metrics formatter
-	// metWriter    MetWriter    // metrics data writer
-	// mutex sync.RWMutex
+	writer    MetWriter    // metrics data writer
 }
 
 func (gmet *GMetInstance) Metric(keys ...string) {
@@ -26,15 +17,14 @@ func (gmet *GMetInstance) Metric(keys ...string) {
 }
 
 func (gmet *GMetInstance) Flush() {
-	// renew registry
+	// replace with new one
 	registry := gmet.registry
 	gmet.registry = NewRegistry()
 
 	if formatted, err := gmet.formatter.Format(registry); err != nil {
 		return
 	} else {
-		// TODO: change to writer
-		log.Println(formatted)
+		gmet.writer.Write(formatted)
 	}
 }
 
@@ -46,18 +36,18 @@ func (gmet *GMetInstance) PeriodicallyFlush(freq time.Duration) {
 	}()
 }
 
-func CreateGMetInstance(formatter MetFormatter) GMetInstance {
-	ins := GMetInstance{registry: NewRegistry(), formatter: formatter}
+func CreateGMetInstance(formatter MetFormatter, writer MetWriter) GMetInstance {
+	ins := GMetInstance{registry: NewRegistry(), formatter: formatter, writer: writer}
 	return ins
 }
 
-func CreateGMetInstanceByDefault() GMetInstance {
+func CreateGMetInstanceByDefault(seelogCfg string) GMetInstance {
 	// create a metric writer
-	// writer, err := CreateMetWriterBySeeLog(metricsFile)
-	// if err != nil {
-	// 	panic(err)
-	// }
+	writer, err := CreateMetWriterBySeeLog(seelogCfg)
+	if err != nil {
+		panic(err)
+	}
 	// create GMet instance by given the writer and the formatter
-	gmet := CreateGMetInstance(&JSON_Formatter{})
+	gmet := CreateGMetInstance(&JSON_Formatter{}, writer)
 	return gmet
 }

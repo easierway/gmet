@@ -1,0 +1,12 @@
+<seelog>
+    <outputs>
+        <console formatid="console"/>
+        <!-- 514 port needed for syslog
+        <conn formatid="syslog" net="tcp" addr="localhost:514" tls="false" />
+        -->
+    </outputs>
+    <formats>
+        <format id="console" format="%Date %Time [%LEVEL] %Msg%n"/>
+        <format id="syslog" format="[%LEVEL] %Msg%n"/>
+    </formats>
+</seelog>

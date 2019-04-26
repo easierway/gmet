@@ -1,11 +1,5 @@
 package gmet
 
-type GMet interface {
-	Metric(key string)
-	// TODO: add stats
-	Flush()
-}
-
 type MetWriter interface {
 	// write the formatted metrics
 	Write(msg string)
