@@ -16,6 +16,7 @@ func (gmet *GMetInstance) Metric(keys ...string) {
 	}
 }
 
+// flush registry to writer
 func (gmet *GMetInstance) Flush() {
 	// replace with new one
 	registry := gmet.registry
@@ -28,6 +29,7 @@ func (gmet *GMetInstance) Flush() {
 	}
 }
 
+// periodically flush
 func (gmet *GMetInstance) PeriodicallyFlush(freq time.Duration) {
 	go func() {
 		for range time.Tick(freq) {

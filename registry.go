@@ -1,3 +1,4 @@
+// see: https://github.com/rcrowley/go-metrics
 package gmet
 
 import (
