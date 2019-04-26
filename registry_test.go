@@ -85,10 +85,6 @@ func TestRegistryGetOrRegister(t *testing.T) {
 
 	// First metric wins with GetOrRegister
 	_ = r.GetOrRegister("foo", NewCounter())
-	// m := r.GetOrRegister("foo", NewGauge())
-	// if _, ok := m.(Counter); !ok {
-	// 	t.Fatal(m)
-	// }
 
 	i := 0
 	r.Each(func(name string, iface interface{}) {
