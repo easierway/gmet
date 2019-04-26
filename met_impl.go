@@ -19,8 +19,10 @@ type GMetInstance struct {
 	// mutex sync.RWMutex
 }
 
-func (gmet *GMetInstance) Metric(key string) {
-	gmet.registry.GetOrRegister(key, NewCounter()).(Counter).Inc(1)
+func (gmet *GMetInstance) Metric(keys ...string) {
+	for _, key := range keys {
+		gmet.registry.GetOrRegister(key, NewCounter()).(Counter).Inc(1)
+	}
 }
 
 func (gmet *GMetInstance) Flush() {

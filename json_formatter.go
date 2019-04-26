@@ -46,8 +46,8 @@ func (formatter *JSON_Formatter) Format(registry Registry) (string, error) {
 	// buf.WriteString(",")
 	// buf.WriteString(toJSON_SEC(SYSTYPE, SysType.Value))
 
-	registry.Each(func(name string, i interface{}) {
-		switch metric := i.(type) {
+	registry.Each(func(name string, iface interface{}) {
+		switch metric := iface.(type) {
 		case Counter:
 			buf.WriteString(",")
 			buf.WriteString(toJSON_SEC(name, metric.Count()))
