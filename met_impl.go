@@ -1,8 +1,14 @@
 package gmet
 
 import (
+	"net"
+	"os"
 	"time"
 )
+
+var HostAddr string
+var HostName string
+var SysType string
 
 type GMetInstance struct {
 	registry  Registry
@@ -43,7 +49,7 @@ func CreateGMetInstance(formatter MetFormatter, writer MetWriter) GMetInstance {
 	return ins
 }
 
-func CreateGMetInstanceByDefault(seelogCfg string) GMetInstance {
+func CreateGMetInstanceByDefault(seelogCfg string, sysType string) GMetInstance {
 	// create a metric writer
 	writer, err := CreateMetWriterBySeeLog(seelogCfg)
 	if err != nil {
@@ -51,5 +57,40 @@ func CreateGMetInstanceByDefault(seelogCfg string) GMetInstance {
 	}
 	// create GMet instance by given the writer and the formatter
 	gmet := CreateGMetInstance(&JSON_Formatter{}, writer)
+	SysType = sysType
 	return gmet
+}
+
+func init() {
+	var err error
+	HostAddr, err = IpAddress()
+	if err != nil {
+		HostAddr = err.Error()
+	}
+	hostname, err := os.Hostname()
+	if err != nil {
+		HostName = err.Error()
+	} else {
+		HostName = hostname
+	}
+	// default
+	SysType = MISSING_VALUE
+}
+
+// Get the local IP address
+func IpAddress() (string, error) {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return MISSING_VALUE, err
+	}
+	for _, address := range addrs {
+		// Check if it is ip circle
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String(), nil
+			}
+
+		}
+	}
+	return MISSING_VALUE, err
 }

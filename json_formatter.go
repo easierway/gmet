@@ -32,11 +32,11 @@ func (formatter *JSON_Formatter) Format(registry Registry) (string, error) {
 	buf.WriteString("{")
 	buf.WriteString(toJSON_SEC(TIMESTAMP_KEY, time.Now()))
 	// buf.WriteString(",")
-	// buf.WriteString(toJSON_SEC(HOST_ADDR, HostAddr.Value))
-	// buf.WriteString(",")
-	// buf.WriteString(toJSON_SEC(HOST_NAME, HostName.Value))
-	// buf.WriteString(",")
-	// buf.WriteString(toJSON_SEC(SYSTYPE, SysType.Value))
+	// buf.WriteString(toJSON_SEC(HOST_ADDR, HostAddr))
+	buf.WriteString(",")
+	buf.WriteString(toJSON_SEC(HOST_NAME, HostName))
+	buf.WriteString(",")
+	buf.WriteString(toJSON_SEC(SYSTYPE, SysType))
 
 	registry.Each(func(name string, iface interface{}) {
 		switch metric := iface.(type) {

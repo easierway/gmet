@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	met := gmet.CreateGMetInstanceByDefault("seelog.xml")
+	met := gmet.CreateGMetInstanceByDefault("seelog.xml", "adnet")
 	met.PeriodicallyFlush(time.Second)
 	for range time.Tick(time.Millisecond) {
 		met.Metric("A", "A", "A")
